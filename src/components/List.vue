@@ -1,5 +1,5 @@
 <template lang="pug">
-  div.list(:set-listNameEncoded="listNameEncoded")
+  div.list
     h2 {{ displayName }}
     a(@click='toggleAndLoad') view list
     booksList(
