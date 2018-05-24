@@ -1,5 +1,5 @@
 <template lang="pug">
-  div
+  div.books-list.row
     book(
       v-for="book in booksList"
       :key="book.book_details[0].title"
@@ -24,6 +24,11 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
-
+<style lang="scss" scoped>
+@media only screen and (min-width: 768px) {
+  .books-list {
+    width: 95%;
+    margin: 0 auto;
+  }
+}
 </style>

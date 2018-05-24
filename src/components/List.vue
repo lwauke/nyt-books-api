@@ -1,11 +1,14 @@
 <template lang="pug">
   div.list
     h2 {{ displayName }}
-    a(@click='toggleAndLoad') view list
+    a(@click='toggleAndLoad')
+      span(v-if="!booksListActive") view list
+      span(v-if="booksListActive") hide list
     booksList(
-      v-if="booksListActive"
+      v-if="booksListActive && !err"
       :booksList="booksList"
     )
+    p(v-if="err") {{ errMsg }}
 </template>
 
 <script>
@@ -17,7 +20,9 @@ export default {
     return {
       booksListActive: false,
       booksListLoaded: false,
-      booksList: {}
+      booksList: {},
+      err: false,
+      errMsg: ''
     }
   },
   methods: {
@@ -36,7 +41,10 @@ export default {
       fetch(`https://api.nytimes.com/svc/books/v3/lists.json?&api-key=${token}&list=${this.listNameEncoded}`)
         .then(d => d.json())// eslint-disable-next-line
         .then(j => this.booksList = j.results)
-        .catch(e => console.log(e))
+        .catch(e => {
+          this.err = true
+          this.errMsg = e.errors[0]
+        })
     }
   },
   components: {
@@ -47,19 +55,26 @@ export default {
 
 <style lang="scss" scoped>
 h2 {
-	font-size: 23px;
-	margin-bottom: 10px;
+  font-size: 23px;
+  margin-bottom: 20px;
+  margin-top: 0;
 }
+
 .list {
-	max-width: 400px;
-	width: 80%;
-	margin: 30px auto;
-	border: 1px solid #000;
-	border-radius: 10px;
-	padding: 50px;
+  border-top: 1px solid #efefef;
+  padding: 95px;
+  &:last-child {
+    border-bottom: 1px solid #efefef;
+  }
+  @media only screen and (min-width: 768px) {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
 }
 
 a {
-	cursor: pointer;
+  cursor: pointer;
+  text-decoration: underline;
 }
 </style>

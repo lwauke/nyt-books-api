@@ -1,7 +1,8 @@
-<template lang="pug">
+ <template lang="pug">
   div.v-list
     h2 NY Times books API
-    list(v-for="list in results" :key="list.list_name" :listNameEncoded="list.list_name_encoded" :displayName="list.display_name")
+    list(v-if="!err" v-for="list in results" :key="list.list_name" :listNameEncoded="list.list_name_encoded" :displayName="list.display_name")
+    p(v-if="err") {{errMsg}}
 </template>
 
 <script>
@@ -12,7 +13,9 @@ export default {
   data () {
     return {
       results: {},
-      similar: {}
+      similar: {},
+      err: false,
+      errMsg: ''
     }
   },
   beforeCreate () {
@@ -21,7 +24,10 @@ export default {
     fetch(`https://api.nytimes.com/svc/books/v3/lists/names.json?&api-key=${token}`)
       .then(d => d.json())// eslint-disable-next-line
       .then(j => this.results = j.results)
-      .catch(e => console.log(e))
+      .catch(e => {
+        this.err = true
+        this.errMsg = e.errors[0]
+      })
   },
   components: {
     list: List
@@ -30,11 +36,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.v-list {
-	// text-align: center;
-}
 h2 {
-	font-weight: normal;
-	margin: 20px auto;
+  margin: 60px auto;
+  font-size: 40px;
 }
 </style>

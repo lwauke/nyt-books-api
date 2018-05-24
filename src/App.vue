@@ -13,7 +13,8 @@ export default {
 </script>
 
 <style lang="scss">
-  #app {
-    text-align: center;
-  }
+#app {
+  text-align: center;
+  color: #626262;
+}
 </style>
