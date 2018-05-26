@@ -3,11 +3,12 @@
     h2 {{ displayName }}
     a(@click='toggleAndLoad')
       span(v-if="!booksListActive") view list
-      span(v-if="booksListActive") hide list
     booksList(
       v-if="booksListActive && !err"
       :booksList="booksList"
     )
+    a(@click='toggleAndLoad')
+      span(v-if="booksListActive") hide list
     p(v-if="err") {{ errMsg }}
 </template>
 

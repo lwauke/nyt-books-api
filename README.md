@@ -1,6 +1,6 @@
-# test
+# ny times books api
 
-> test
+> just a simple test with vue js consuming the New York Times Books api
 
 ## Build Setup
 
